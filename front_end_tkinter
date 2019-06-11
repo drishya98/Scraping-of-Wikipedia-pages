@@ -1,0 +1,96 @@
+import final_code_back as bck
+from PIL import ImageTk
+import PIL.Image
+from tkinter import *
+from tkinter import messagebox
+import webbrowser,os
+import urllib.request as u
+r = Tk()
+r.title('Information Retrieval Project')
+r.configure(background='darkgrey')
+r.geometry("450x430")
+w = Label(r, text="Hello, world!")
+w.config(font=("Ariel", 12))
+url=StringVar()
+no_of_sen=IntVar()
+search_w=StringVar()
+high_w=StringVar()
+syn_w=StringVar()
+l0=Label(r,text="Enter the wikipedia url: ")
+e0=Entry(r,textvariable=url)
+l1=Label(r,text="Enter number of sentences: ")
+e1=Entry(r,textvariable=no_of_sen)
+l2=Label(r,text="Enter the search word: ")
+e2=Entry(r,textvariable=search_w)
+l3=Label(r,text="Enter the word to be highlighted: ")
+e3=Entry(r,textvariable=high_w)
+l4=Label(r,text="Enter the search word to find synonyms: ")
+e4=Entry(r,textvariable=syn_w)
+x = Label(r, text="The end")
+
+def back_end():
+    bck.code(url.get(),no_of_sen.get(),high_w.get())
+
+b1=Button(r,text="Summarize the url",command=back_end)
+
+def open_summary():
+    messagebox.showinfo('Message title', 'You are going to see the summary!')
+    os.system('notepad new.txt')
+
+b2 = Button(r, text = "This opens the summarized text file",command=open_summary)
+
+def count_search_word():
+    label = Label(r, command=bck.count_word(search_w.get()))
+
+b3 = Button(r, text = "Count of search word! ",command=count_search_word)
+
+def open_syn():
+    messagebox.showinfo('Message title', 'You are going to see the synonyms!')
+    bck.synonyms(syn_w.get())
+    os.system('notepad syn.txt')
+
+b6 = Button(r, text = "Display the synonyms! ",command=open_syn)
+
+def openweb():
+    messagebox.showinfo('Message title', 'You are going to see the highlighted file now!')
+    chrome_path = 'C:/Program Files (x86)/Google/Chrome/Application/chrome.exe %s'
+    url = 'file:{}'.format(u.pathname2url(os.path.abspath('random2.html')))
+    webbrowser.get(chrome_path).open(url)
+
+b4 = Button(r, text = "This opens the highlighted text file",command=openweb)
+
+
+def loadImage():
+    img = PIL.Image.open("C:\\Users\\HP\\Desktop\\Capture_new.JPG")
+    filename = ImageTk.PhotoImage(img)
+    canvas = Canvas(r,height=900,width=600)
+    canvas.image = filename  # <--- keep reference of your image
+    canvas.create_image(0, 0, image=canvas.image, anchor="nw")
+    canvas.pack()
+b5 = Button(r, text = "Click Here to see Visualization!", command = loadImage)
+
+w.pack()
+l0.pack()
+e0.pack()
+l1.pack()
+e1.pack()
+l2.pack()
+e2.pack()
+l3.pack()
+e3.pack()
+l4.pack()
+e4.pack()
+x.pack()
+b1.pack()
+b2.pack()
+b3.pack()
+b4.pack()
+b6.pack()
+b5.pack()
+myWidgets = [l0, l1,l2,l3,l4,x] # List of widgets to change colour
+for wid in myWidgets:
+    wid.configure(bg = 'pink')
+myWidgets1 = [b1,b2,b3,b4,b5,b6] # List of widgets to change colour
+for wid in myWidgets1:
+    wid.configure(bg = 'lightblue')
+r.mainloop()
